@@ -8,7 +8,9 @@ usersController.getAll = async (req, res) => {
   let users;
   try {
     let merged = {};
-
+    const start = 0;
+    const length = 100;
+    
     users = await Users.paginate(
       merged,
       { password: 0 },
@@ -68,13 +70,21 @@ usersController.registerUser = async (req, res) => {
     });
   } catch (ex) {
     console.log('ex', ex);
-
+    if(ex.code===11000){
+      res
+      .send({
+        message: 'This email has been registered already',
+      })
+      .status(500);
+    }
+    else {
     res
       .send({
         message: 'Error',
         detail: ex
       })
       .status(500);
+  }
   }
 };
 
