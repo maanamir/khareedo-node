@@ -25,6 +25,30 @@ productsController.getAll = async (req, res) => {
   }
 };
 
+productsController.getMyProducts = async (req, res) => {
+  let products;
+  if (!req.params._id) {
+    Fu;
+    res.status(500).send({
+      message: 'ID missing'
+    });
+  }
+  try {
+    
+    const _id = req.params._id;
+    products = await Products.find( {userid:_id});
+    res.status(200).send({
+      code: 200,
+      message: 'Successful',
+      data: products
+    });
+  } catch (error) {
+    console.log('error', error);
+    return res.status(500).send(error);
+  }
+};
+
+
 productsController.addProduct = async (req, res) => {
   try {
   
@@ -72,7 +96,7 @@ productsController.deleteProduct = async (req, res) => {
   try {
     const _id = req.params._id;
 
-    const result = await products.findOneAndDelete({
+    const result = await Products.findOneAndDelete({
       _id: _id
     });
    
@@ -85,6 +109,8 @@ productsController.deleteProduct = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
+
 
 productsController.updateProduct = async (req, res) => {
   if (!req.params._id) {
@@ -104,7 +130,7 @@ productsController.updateProduct = async (req, res) => {
 
 async function runUpdate(_id, updates, res) {
   try {
-    const result = await products.updateOne(
+    const result = await Products.updateOne(
       {
         _id: _id
       },

@@ -25,6 +25,12 @@ const Product = new Schema({
     image_url: {
         type: String
     },
+    location: {
+        type: String
+    },
+    userid: {
+        type: String
+    },
   
     is_deleted: {
         type: Number,
@@ -34,11 +40,11 @@ const Product = new Schema({
 
 Product.plugin(mongoosePaginate);
 
-Product.methods.toJSON = function() {
-    var obj = this.toObject();
-    //delete obj.password;
-    return obj;
-   }
+// Product.methods.toJSON = function() {
+//     var obj = this.toObject();
+//     //delete obj.password;
+//     return obj;
+//    }
 // User.index({'$**': 'text'});
 
 module.exports = mongoose.model("Product", Product);

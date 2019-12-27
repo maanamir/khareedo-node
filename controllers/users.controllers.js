@@ -35,7 +35,7 @@ usersController.getSingleUser = async (req, res) => {
   let user;
   try {
     const _id = req.params._id;
-    user = await Users.findOne({ _id: _id });
+    user = await Users.findOne({ id: _id });
     res.status(200).send({
       code: 200,
       message: 'Successful',
@@ -115,7 +115,7 @@ usersController.loginUser = async (req, res) => {
             const token = jsonwebtoken.sign({
                data: result,
                role: 'User'
-            }, 'supersecretToken', { expiresIn: '7d' });
+            }, process.env.JWT_KEY, { expiresIn: '7d' });
             
             res.send({ message: 'Successfully Logged in', token: token });
           } 
